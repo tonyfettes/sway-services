@@ -6,15 +6,16 @@ services = [
   'sway.service',
   'wayland-session-pre.target',
   'wayland-session.target',
+  'swayidle.service',
 ]
 
 in_services = [
-  'swayidle.service',
 ]
 
 conf = configuration_data({
   'prefix': get_option('prefix')
 })
+
 foreach srv : in_services
   configure_file(
     input: srv + '.in',

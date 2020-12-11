@@ -21,10 +21,8 @@ wayland exclusive services
 * `kanshi.service`
 * `mako.service`
 * `swayidle.service`
+* `waybar.service`
 
 ## Notes
 
 The `/etc/sway/config.d/10-service.conf` file must be loaded by sway.
-
-`swayidle.service` will load a configuration file, an example can be found in
-`examples/idle.yaml` in this repository

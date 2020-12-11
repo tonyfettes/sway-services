@@ -7,7 +7,6 @@ services = [
   'swayidle.service',
   'kanshi.service',
   'mako.service',
-  'waybar.service',
 ]
 
 in_services = [

@@ -3,11 +3,12 @@
 _pkgname=sway-services
 pkgname=${_pkgname}-git
 pkgdesc="Collection of sway and friends systemd unit files"
-pkgver=r25.cd1b01f
+pkgver=r28.dc7993a
 pkgrel=1
 arch=(any)
 makedepends=('meson')
 depends=('sway' 'swayidle' 'mako' 'kanshi' 'gammastep' 'waybar')
+url="https://github.com/tonyfettes/sway-services"
 source=("git+${url}.git")
 license=('MIT')
 md5sums=('SKIP')

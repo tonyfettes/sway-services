@@ -1,8 +1,8 @@
 [Unit]
 Description=Dynamic output configuration
 Documentation=man:kanshi(1)
-PartOf=wayland-session.target
-Requires=wayland-session.target
+Documentation=man:kanshi(5)
+BindsTo=wayland-session.target
 After=wayland-session.target
 
 [Service]

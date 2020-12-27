@@ -7,10 +7,12 @@ Requires=sway.service
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/swayidle -w                      \
-          timeout 300 'swaylock -f'                 \
-          timeout 600 'swaymsg "output * dpms off"' \
-          resume 'swaymsg "output * dpms on"'       \
+ExecStart=/usr/bin/swayidle -w                       \
+           timeout 300 'swaylock -f'                 \
+           timeout 600 'swaymsg "output * dpms off"' \
+                resume 'swaymsg "output * dpms on"'  \
+                  lock 'swaylock -f'                 \
+                unlock 'pkill -kill swaylock'        \
           before-sleep 'swaylock -f'
 Restart=on-failure
 RestartSec=1

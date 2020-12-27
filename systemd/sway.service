@@ -12,4 +12,9 @@ Before=sway-session.target
 Type=notify
 ExecStart=/usr/bin/sway
 NotifyAccess=all
-ExecStopPost=/usr/bin/systemctl --user unset-environment SWAYSOCK DISPLAY I3SOCK WAYLAND_DISPLAY
+ExecStopPost=/usr/bin/systemctl --user unset-environment SWAYSOCK        \
+                                                         DISPLAY         \
+                                                         I3SOCK          \
+                                                         WAYLAND_DISPLAY \
+                                                         XCURSOR_SIZE    \
+                                                         XCURSOR_THEME

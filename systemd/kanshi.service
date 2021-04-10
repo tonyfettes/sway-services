@@ -2,7 +2,7 @@
 Description=Dynamic output configuration
 Documentation=man:kanshi(1)
 Documentation=man:kanshi(5)
-BindsTo=wayland-session.target
+PartOf=wayland-session.target
 After=wayland-session.target
 
 [Service]

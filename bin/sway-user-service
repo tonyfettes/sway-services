@@ -4,11 +4,13 @@
 
 # From: https://people.debian.org/~mpitt/systemd.conf-2016-graphical-session.pdf
 
+TARGETS=(wayland-session.target wayland-session-pre.target graphical-session.target graphical-session-pre.target graphical-session-timers.target)
+
 # robustness: if the previous graphical session left some failed units,
 # reset them so that they don't break this startup
-for unit in $(systemctl --user --no-legend --state=failed --plain list-units | cut -f1 -d' '); do
+for unit in $(systemctl --user --state=failed --output=json --no-pager list-units | jq -r '.[].unit'); do
 	partof="$(systemctl --user show -p PartOf --value "$unit")"
-	for target in sway-session.target wayland-session.target graphical-session.target; do
+	for target in $TARGETS; do
 		if [ "$partof" = "$target" ]; then
 			systemctl --user reset-failed "$unit"
 			break
@@ -19,19 +21,21 @@ done
 # /etc/profile contains a lot of important environment variables
 source /etc/profile
 
+# set appropriate environment variable
 export XDG_CURRENT_DESKTOP=sway
-
-# save environment variables that will be added to systemd
-new_env=$(systemctl --user show-environment | cut -d'=' -f 1 | sort | comm -13 - <(env | cut -d'=' -f 1 | sort))
+export XDG_SESSION_TYPE=wayland
 
 # import environment variables from the login manager
-systemctl --user import-environment
+systemctl --user import-environment XDG_SEAT XDG_SESSION_TYPE MOTD_SHOWN XDG_CURRENT_DESKTOP XDG_SESSION_CLASS XDG_VTNR XDG_SESSION_ID XDG_RUNTIME_DIR DBUS_SESSION_BUS_ADDRESS
+
+# get USER_PATH from user's environment.d, concatenate it to PATH
+export PATH=$(systemctl --user show-environment | grep '^USER_PATH=' | cut -f2 -d'='):${PATH}
+
+# import PATH
+systemctl --user import-environment PATH
 
 # Unset environment set by sway started by greetd
-systemctl --user unset-environment SWAYSOCK DISPLAY I3SOCK WAYLAND_DISPLAY
+systemctl --user unset-environment SWAYSOCK DISPLAY I3SOCK WAYLAND_DISPLAY XCURSOR_SIZE XCURSOR_THEME
 
-# then start the service
-systemctl --wait --user start sway.service
-
-# cleanup environment
-systemctl --user unset-environment $new_env
+# then start the desktop environment target
+systemctl --wait --user start desktop-environment.target

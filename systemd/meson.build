@@ -1,29 +1,14 @@
 services = [
-  'sway-session-pre.target',
-  'sway-session.target',
-  'sway.service',
-  'wayland-session-pre.target',
-  'wayland-session.target',
-  'swayidle.service',
+  'targets/wayland-session-pre.target',
+  'targets/wayland-session.target',
+  'targets/desktop-environment.target',
+  'targets/graphical-session-timers.target',
+  'sway/sway.service',
+  'sway/swayidle.service',
+  'wob/wob.socket',
+  'wob/wob.service',
+  'wob/wob-mkfifo.service',
   'kanshi.service',
-  'mako.service',
 ]
-
-in_services = [
-]
-
-conf = configuration_data({
-  'prefix': get_option('prefix')
-})
-
-foreach srv : in_services
-  configure_file(
-    input: srv + '.in',
-    output: srv,
-    configuration: conf,
-    install_dir: 'lib/systemd/user',
-    install_mode: 'rw-r--r--',
-  )
-endforeach
 
 install_data(services, install_dir: 'lib/systemd/user')

@@ -8,11 +8,12 @@
 #  (at your option) any later version.
 
 [Unit]
-Description=Session services which should run early before the sway session is brought up
+Description=Session services which should run early before the wayland session is brought up
 Documentation=man:systemd.special(7)
 Requires=basic.target
-Before=sway-session.target
+Before=wayland-session.target
 RefuseManualStart=yes
 StopWhenUnneeded=yes
-BindsTo=wayland-session-pre.target
-Before=wayland-session-pre.target
+BindsTo=graphical-session-pre.target
+After=graphical-session-pre.target
+Before=compositor.service

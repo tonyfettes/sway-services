@@ -1,0 +1,17 @@
+[Unit]
+Description=A lightweight overlay bar for Wayland
+Documentation=man:wob(1)
+PartOf=wayland-session.target
+After=wayland-session.target
+
+[Service]
+ExecStart=/usr/bin/wob -a center \
+                       -H 25     \
+                       -W 500    \
+                       -p 5      \
+                       -b 5      \
+                       -o 0      \
+                       --background-color "#00000000" \
+                       --bar-color        "#bb88c0d0" \
+                       --border-color     "#bb81a1c1"
+StandardInput=socket
